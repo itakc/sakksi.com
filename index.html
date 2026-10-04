@@ -7,7 +7,7 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-  <title>SAKKSI - AI for the Arab World</title>
+  <title>SAKKSI - AI</title>
 
   <meta name="description"
         content="SAKKSI, intelligence artificielle conçue pour le monde arabe. Posez une question, explorez, comprenez et découvrez.">
@@ -51,18 +51,19 @@
     }
 
     .hero-bg {
-      position: absolute;
+  position: absolute;
+  inset: 0;
 
-      inset: 0;
+  width: 100%;
+  height: 100%;
 
-      width: 100%;
-      height: 100%;
+  object-fit: contain;
+  object-position: center center;
 
-      object-fit: cover;
-      object-position: center;
+  background: #020b1b;
 
-      z-index: 1;
-    }
+  z-index: 1;
+}
 
 
     /* léger voile pour fusionner l'interface */
@@ -94,22 +95,17 @@
     /* ===================================== */
 
     .sakksi-search-zone {
-      position: absolute;
+  position: absolute;
 
-      /*
-        POSITION PRINCIPALE :
-        la barre commence près du bec
-        de la lampe.
-      */
+  left: 50%;
+  bottom: clamp(25px, 6vh, 80px);
 
-      left: 38%;
-      top: 73%;
+  transform: translateX(-50%);
 
-      width: 56%;
+  width: min(920px, calc(100% - 60px));
 
-      z-index: 10;
-    }
-
+  z-index: 10;
+}
 
     /* ===================================== */
     /* HALO / NUAGE                          */
@@ -168,26 +164,37 @@
     /* ===================================== */
 
     .sakksi-search {
-      display: flex;
+  display: flex;
+  align-items: center;
 
-      align-items: center;
+  gap: clamp(6px, 1vw, 14px);
 
-      gap: 14px;
+  width: 100%;
 
-      width: 100%;
+  min-height: clamp(58px, 7vw, 76px);
 
-      min-height: 76px;
+  padding:
+    8px
+    clamp(10px, 1.5vw, 18px);
 
-      padding: 10px 14px 10px 20px;
+  border-radius: 999px;
 
-      border-radius: 999px;
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255,255,255,.90),
+      rgba(235,245,255,.78)
+    );
 
-      background:
-        linear-gradient(
-          120deg,
-          rgba(255,255,255,.86),
-          rgba(240,248,255,.74)
-        );
+  border: 1px solid rgba(255,255,255,.80);
+
+  backdrop-filter: blur(20px) saturate(145%);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
+
+  box-shadow:
+    0 12px 45px rgba(0,0,0,.28),
+    0 0 25px rgba(50,190,255,.20);
+}
 
       border:
         1px solid rgba(255,255,255,.75);
@@ -286,27 +293,24 @@
     /* ===================================== */
 
     .sakksi-input {
-      flex: 1;
+  flex: 1;
+  min-width: 0;
 
-      min-width: 0;
+  height: 48px;
 
-      height: 52px;
+  border: none;
+  outline: none;
 
-      border: none;
+  background: transparent;
 
-      outline: none;
+  color: #07101e;
 
-      background: transparent;
+  font-size: clamp(14px, 1.5vw, 17px);
 
-      color: #07101e;
+  font-weight: 500;
 
-      font-size: 17px;
-
-      font-weight: 500;
-
-      padding: 0 10px;
-    }
-
+  padding: 0 8px;
+}
 
     .sakksi-input::placeholder {
       color:
@@ -443,93 +447,134 @@
     /* MOBILE                                */
     /* ===================================== */
 
-    @media (max-width: 700px) {
+   /* TABLETTE */
 
-      .hero-bg {
-        object-position:
-          43% center;
-      }
+@media (max-width: 1000px) {
 
-      .sakksi-search-zone {
-        left: 5%;
-        right: 5%;
+  .sakksi-search-zone {
+    width: calc(100% - 40px);
+    bottom: 35px;
+  }
 
-        width: auto;
+  .sakksi-search {
+    min-height: 66px;
+  }
 
-        top: auto;
-        bottom: 7%;
-      }
+  .sakksi-name {
+    font-size: 15px;
+  }
 
-      .sakksi-search {
-        min-height: 66px;
+  .sakksi-voice {
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+  }
 
-        padding:
-          8px 10px 8px 12px;
-
-        gap: 8px;
-      }
-
-      .sakksi-name {
-        font-size: 14px;
-      }
-
-      .sakksi-input {
-        font-size: 15px;
-      }
-
-      .sakksi-plus {
-        width: 32px;
-        flex-basis: 32px;
-
-        font-size: 29px;
-      }
-
-      .sakksi-mic {
-        width: 38px;
-        height: 38px;
-
-        flex-basis: 38px;
-      }
-
-      .sakksi-mic svg {
-        width: 22px;
-        height: 22px;
-      }
-
-      .sakksi-voice {
-        width: 48px;
-        height: 48px;
-
-        flex-basis: 48px;
-      }
-
-      .sakksi-voice svg {
-        width: 25px;
-        height: 25px;
-      }
-
-      .sakksi-tagline {
-        display: none;
-      }
-
-    }
+}
 
 
-    /* ===================================== */
-    /* PETITS MOBILES                        */
-    /* ===================================== */
+/* MOBILE */
 
-    @media (max-width: 480px) {
+@media (max-width: 600px) {
 
-      .sakksi-name {
-        display: none;
-      }
+  .hero-bg {
+    object-fit: cover;
 
-      .sakksi-search {
-        gap: 5px;
-      }
+    /*
+      On privilégie SAKKSI plutôt que
+      la partie droite de Dubai.
+    */
+    object-position: 48% center;
+  }
 
-    }
+  .sakksi-search-zone {
+    left: 50%;
+    bottom: 22px;
+
+    width: calc(100% - 24px);
+
+    transform: translateX(-50%);
+  }
+
+  .sakksi-search {
+    min-height: 60px;
+
+    padding:
+      6px 8px;
+
+    gap: 4px;
+  }
+
+  .sakksi-plus {
+    width: 34px;
+    height: 34px;
+
+    flex-basis: 34px;
+
+    font-size: 28px;
+  }
+
+  .sakksi-name {
+    font-size: 13px;
+  }
+
+  .sakksi-input {
+    height: 44px;
+
+    font-size: 14px;
+
+    padding: 0 5px;
+  }
+
+  .sakksi-input::placeholder {
+    font-size: 13px;
+  }
+
+  .sakksi-mic {
+    width: 36px;
+    height: 36px;
+
+    flex-basis: 36px;
+  }
+
+  .sakksi-mic svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sakksi-voice {
+    width: 44px;
+    height: 44px;
+
+    flex-basis: 44px;
+  }
+
+  .sakksi-voice svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .sakksi-tagline {
+    display: none;
+  }
+
+}
+
+
+/* PETITS TELEPHONES */
+
+@media (max-width: 430px) {
+
+  .sakksi-name {
+    display: none;
+  }
+
+  .sakksi-search-zone {
+    width: calc(100% - 18px);
+    bottom: 14px;
+  }
+
+}
 
   </style>
 
