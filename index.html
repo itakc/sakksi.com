@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>SAKKSI - AI for the Arab World</title>
+
+  <meta name="description"
+        content="SAKKSI, intelligence artificielle conçue pour le monde arabe. Posez une question, explorez, comprenez et découvrez.">
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background: #020b1b;
+    }
+
+
+    /* ===================================== */
+    /* IMAGE PRINCIPALE                      */
+    /* ===================================== */
+
+    .hero {
+      position: relative;
+
+      width: 100%;
+      height: 100vh;
+
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+      object-position: center;
+
+      z-index: 1;
+    }
+
+
+    /* léger voile pour fusionner l'interface */
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 2;
+
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          circle at 57% 77%,
+          transparent 0%,
+          transparent 30%,
+          rgba(0, 10, 25, .08) 65%,
+          rgba(0, 5, 15, .22) 100%
+        );
+    }
+
+
+    /* ===================================== */
+    /* ZONE SAKKSI                           */
+    /* ===================================== */
+
+    .sakksi-search-zone {
+      position: absolute;
+
+      /*
+        POSITION PRINCIPALE :
+        la barre commence près du bec
+        de la lampe.
+      */
+
+      left: 38%;
+      top: 73%;
+
+      width: 56%;
+
+      z-index: 10;
+    }
+
+
+    /* ===================================== */
+    /* HALO / NUAGE                          */
+    /* ===================================== */
+
+    .sakksi-search-zone::before {
+      content: "";
+
+      position: absolute;
+
+      left: -45px;
+      right: -35px;
+
+      top: -30px;
+      bottom: -30px;
+
+      border-radius: 999px;
+
+      background:
+        radial-gradient(
+          ellipse,
+          rgba(80, 215, 255, .19),
+          rgba(0, 135, 255, .08) 43%,
+          transparent 72%
+        );
+
+      filter: blur(18px);
+
+      opacity: .95;
+
+      z-index: -1;
+
+      animation:
+        cloudPulse 4s ease-in-out infinite;
+    }
+
+
+    @keyframes cloudPulse {
+
+      0%,
+      100% {
+        opacity: .62;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.035);
+      }
+
+    }
+
+
+    /* ===================================== */
+    /* BARRE PRINCIPALE                      */
+    /* ===================================== */
+
+    .sakksi-search {
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+
+      width: 100%;
+
+      min-height: 76px;
+
+      padding: 10px 14px 10px 20px;
+
+      border-radius: 999px;
+
+      background:
+        linear-gradient(
+          120deg,
+          rgba(255,255,255,.86),
+          rgba(240,248,255,.74)
+        );
+
+      border:
+        1px solid rgba(255,255,255,.75);
+
+      backdrop-filter:
+        blur(20px)
+        saturate(145%);
+
+      -webkit-backdrop-filter:
+        blur(20px)
+        saturate(145%);
+
+      box-shadow:
+        0 12px 45px rgba(0,0,0,.28),
+        0 0 25px rgba(50,190,255,.18),
+        inset 0 0 25px rgba(255,255,255,.20);
+
+      transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+    }
+
+
+    .sakksi-search:focus-within {
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 18px 55px rgba(0,0,0,.34),
+        0 0 38px rgba(45,190,255,.35),
+        inset 0 0 25px rgba(255,255,255,.25);
+    }
+
+
+    /* ===================================== */
+    /* BOUTON +                              */
+    /* ===================================== */
+
+    .sakksi-plus {
+      width: 38px;
+      height: 38px;
+
+      flex:
+        0 0 38px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border: none;
+
+      background: transparent;
+
+      color: #07101e;
+
+      font-size: 35px;
+
+      font-weight: 300;
+
+      cursor: pointer;
+
+      transition:
+        transform .25s ease;
+    }
+
+
+    .sakksi-plus:hover {
+      transform:
+        rotate(90deg)
+        scale(1.08);
+    }
+
+
+    /* ===================================== */
+    /* NOM SAKKSI                            */
+    /* ===================================== */
+
+    .sakksi-name {
+      color: #07101e;
+
+      font-weight: 800;
+
+      font-size: 17px;
+
+      letter-spacing: .7px;
+
+      white-space: nowrap;
+
+      user-select: none;
+    }
+
+
+    /* ===================================== */
+    /* INPUT                                 */
+    /* ===================================== */
+
+    .sakksi-input {
+      flex: 1;
+
+      min-width: 0;
+
+      height: 52px;
+
+      border: none;
+
+      outline: none;
+
+      background: transparent;
+
+      color: #07101e;
+
+      font-size: 17px;
+
+      font-weight: 500;
+
+      padding: 0 10px;
+    }
+
+
+    .sakksi-input::placeholder {
+      color:
+        rgba(20,30,45,.48);
+    }
+
+
+    /* ===================================== */
+    /* MICRO                                 */
+    /* ===================================== */
+
+    .sakksi-mic {
+      width: 44px;
+      height: 44px;
+
+      flex:
+        0 0 44px;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background: transparent;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      color: #10131a;
+
+      transition:
+        background .2s ease,
+        transform .2s ease;
+    }
+
+
+    .sakksi-mic:hover {
+      background:
+        rgba(0,80,150,.08);
+
+      transform:
+        scale(1.06);
+    }
+
+
+    .sakksi-mic svg {
+      width: 25px;
+      height: 25px;
+    }
+
+
+    /* ===================================== */
+    /* BOUTON VOCAL BLEU                     */
+    /* ===================================== */
+
+    .sakksi-voice {
+      width: 56px;
+      height: 56px;
+
+      flex:
+        0 0 56px;
+
+      border: none;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      background:
+        linear-gradient(
+          145deg,
+          #147dff,
+          #396cff
+        );
+
+      box-shadow:
+        0 0 18px rgba(30,125,255,.30);
+
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+    }
+
+
+    .sakksi-voice:hover {
+      transform:
+        scale(1.08);
+
+      box-shadow:
+        0 0 28px rgba(30,145,255,.55);
+    }
+
+
+    .sakksi-voice svg {
+      width: 29px;
+      height: 29px;
+
+      stroke: white;
+    }
+
+
+    /* ===================================== */
+    /* PETIT TEXTE SOUS LA BARRE             */
+    /* ===================================== */
+
+    .sakksi-tagline {
+      margin-top: 13px;
+
+      text-align: center;
+
+      color:
+        rgba(220,245,255,.75);
+
+      font-size: 12px;
+
+      letter-spacing: 2px;
+
+      text-shadow:
+        0 2px 8px rgba(0,0,0,.6);
+
+      opacity: .75;
+    }
+
+
+    /* ===================================== */
+    /* MOBILE                                */
+    /* ===================================== */
+
+    @media (max-width: 700px) {
+
+      .hero-bg {
+        object-position:
+          43% center;
+      }
+
+      .sakksi-search-zone {
+        left: 5%;
+        right: 5%;
+
+        width: auto;
+
+        top: auto;
+        bottom: 7%;
+      }
+
+      .sakksi-search {
+        min-height: 66px;
+
+        padding:
+          8px 10px 8px 12px;
+
+        gap: 8px;
+      }
+
+      .sakksi-name {
+        font-size: 14px;
+      }
+
+      .sakksi-input {
+        font-size: 15px;
+      }
+
+      .sakksi-plus {
+        width: 32px;
+        flex-basis: 32px;
+
+        font-size: 29px;
+      }
+
+      .sakksi-mic {
+        width: 38px;
+        height: 38px;
+
+        flex-basis: 38px;
+      }
+
+      .sakksi-mic svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .sakksi-voice {
+        width: 48px;
+        height: 48px;
+
+        flex-basis: 48px;
+      }
+
+      .sakksi-voice svg {
+        width: 25px;
+        height: 25px;
+      }
+
+      .sakksi-tagline {
+        display: none;
+      }
+
+    }
+
+
+    /* ===================================== */
+    /* PETITS MOBILES                        */
+    /* ===================================== */
+
+    @media (max-width: 480px) {
+
+      .sakksi-name {
+        display: none;
+      }
+
+      .sakksi-search {
+        gap: 5px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<section class="hero">
+
+
+  <!-- IMAGE PRINCIPALE -->
+
+  <img
+    src="sakksi-home.png"
+    alt="SAKKSI - Intelligence artificielle du monde arabe"
+    class="hero-bg"
+  >
+
+
+
+  <!-- BARRE SAKKSI -->
+
+  <div class="sakksi-search-zone">
+
+
+    <form
+      class="sakksi-search"
+      id="sakksiForm"
+    >
+
+
+      <!-- + -->
+
+      <button
+        type="button"
+        class="sakksi-plus"
+        aria-label="Ajouter"
+      >
+        +
+      </button>
+
+
+      <!-- NOM -->
+
+      <span class="sakksi-name">
+        SAKKSI
+      </span>
+
+
+      <!-- QUESTION -->
+
+      <input
+        type="text"
+        class="sakksi-input"
+        id="sakksiInput"
+        placeholder="Ask SAKKSI..."
+        autocomplete="off"
+      >
+
+
+      <!-- MICRO -->
+
+      <button
+        type="button"
+        class="sakksi-mic"
+        aria-label="Microphone"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+
+          <rect
+            x="9"
+            y="2"
+            width="6"
+            height="11"
+            rx="3">
+          </rect>
+
+          <path
+            d="M5 10a7 7 0 0 0 14 0">
+          </path>
+
+          <line
+            x1="12"
+            y1="17"
+            x2="12"
+            y2="22">
+          </line>
+
+        </svg>
+
+      </button>
+
+
+      <!-- MODE VOCAL -->
+
+      <button
+        type="submit"
+        class="sakksi-voice"
+        aria-label="Ask SAKKSI"
+      >
+
+        <svg
+          viewBox="0 0 32 32"
+          fill="none"
+          stroke-width="2.6"
+          stroke-linecap="round"
+        >
+
+          <line x1="7" y1="13" x2="7" y2="19"></line>
+
+          <line x1="12" y1="8" x2="12" y2="24"></line>
+
+          <line x1="17" y1="5" x2="17" y2="27"></line>
+
+          <line x1="22" y1="9" x2="22" y2="23"></line>
+
+          <line x1="27" y1="13" x2="27" y2="19"></line>
+
+        </svg>
+
+      </button>
+
+
+    </form>
+
+
+    <div class="sakksi-tagline">
+      INTELLIGENCE FOR THE ARAB WORLD
+    </div>
+
+
+  </div>
+
+
+</section>
+
+
+
+<script>
+
+  const sakksiForm =
+    document.getElementById("sakksiForm");
+
+  const sakksiInput =
+    document.getElementById("sakksiInput");
+
+
+  sakksiForm.addEventListener(
+    "submit",
+    function(event) {
+
+      event.preventDefault();
+
+      const question =
+        sakksiInput.value.trim();
+
+      if (!question) {
+
+        sakksiInput.focus();
+
+        return;
+
+      }
+
+
+      /*
+        PLUS TARD :
+        c'est ici que nous connecterons
+        l'IA SAKKSI.
+      */
+
+      console.log(
+        "Question envoyée à SAKKSI :",
+        question
+      );
+
+    }
+  );
+
+</script>
+
+
+</body>
+
+</html>
